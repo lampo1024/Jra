@@ -1,0 +1,17 @@
+﻿.f-grid .ui-widget-content { /*min-height: 90px;*/ }
+.btn-action { margin-right: 8px; display: inline-block; opacity: .85; -webkit-transition: all .1s; transition: all .1s; }
+    .btn-action:hover { text-decoration: none; -moz-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -ms-transform: scale(1.2); transform: scale(1.2); opacity: 1; }
+    .btn-action .ui-icon { font-size: 16px; color: #478fca !important; }
+    .btn-action.view .ui-icon { color: #69aa46 !important; }
+    .btn-action.edit .ui-icon { color: #478fca !important; }
+    .btn-action.delete .ui-icon { color: #dd5a43 !important; }
+.pointer{ cursor: pointer;}
+.green .ui-icon, .green.ui-icon, .success .ui-icon, .success.ui-icon { color: #69aa46 !important; }
+.blue .ui-icon, .blue.ui-icon, .info .ui-icon, .info.ui-icon { color: #478fca !important; }
+.red .ui-icon, .red.ui-icon, .danger .ui-icon, .danger.ui-icon { color: #dd5a43 !important; }
+.orange .ui-icon, .orange.ui-icon, .warning .ui-icon, .warning.ui-icon { color: #F4942D !important; }
+
+.f-messagebox { border-radius: 3px !important; }
+.f-btn, .f-field input { border-radius: 2px !important; }
+.f-btn { padding: 6px 15px; }
+.f-field input { padding: 6px 8px;}

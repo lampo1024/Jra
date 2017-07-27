@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统登录</title>
+    <link href="~/assets/fui/f/f.css" rel="stylesheet" />
+    <link href="~/res/css/common.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/js/global.js"></script>
+    <script src="~/assets/fui/f/f.js"></script>
+    <script src="~/res/js/common.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        F.ready(function () {
+
+            F.ui({
+                type: 'window',
+                id: 'window1',
+                renderTo: document.body,
+                layout: 'anchor',
+                width: 350,
+                bodyPadding: '10px',
+                title: '登录表单',
+                modal: true,
+                closable: false,
+                goldenPosition: true,
+                draggable: false,
+                iconFont: 'user',
+                fieldDefaults: {
+                    labelWidth: 80
+                },
+                items: [
+                    {
+                        type: 'textbox',
+                        id: 'loginName',
+                        redStar: true,
+                        fieldLabel: '用户名',
+                        required: true,
+                        iconFont: 'user',
+                        emptyText: '请输入用户名'
+                    }, {
+                        type: 'textbox',
+                        id: 'password',
+                        redStar: true,
+                        fieldLabel: '密码',
+                        required: true,
+                        inputType: 'password'
+                    }
+                ],
+                bars: [
+                    {
+                        type: 'toolbar',
+                        align: 'right',
+                        position: 'bottom',
+                        items: [
+                            {
+                                type: 'button',
+                                id: 'btnLogin',
+                                text: '登录',
+                                validateForm: 'window1',
+                                validateTarget: '_top',
+                                handler: function () {
+                                    $.post(C.createUrl(C.loginUrl), { loginName: F.ui.loginName.getValue(), password: F.ui.password.getValue() }, function (response) {
+                                        showNotify(response.message);
+                                        window.top.location.href = C.homePageUrl;
+                                    });
+                                }
+                            }, {
+                                type: 'button',
+                                text: '重置',
+                                handler: function () {
+                                    F.reset();
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+
+            F.submitbutton = 'btnLogin';
+
+        });
+    </script>
+</body>
+</html>

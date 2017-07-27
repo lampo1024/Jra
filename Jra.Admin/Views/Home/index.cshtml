@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>管理系统</title>
+    <link href="~/assets/fui/f/f.css" rel="stylesheet" />
+    <link href="~/res/css/common.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+<div id="w_main"></div>
+<script src="~/assets/fui/f/f.js"></script>
+<script src="~/assets/axios/axios.min.js"></script>
+<script src="~/res/js/common.js"></script>
+<script src="~/js/global.js"></script>
+<script src="~/js/menu.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+    F.ready(function () {
+        // 创建页面主体框架
+        F.ui({
+            type: 'viewport',
+            renderTo: '#w_main',
+            layout: 'region',
+            cls: 'mainpanel',
+            items: [{
+                type: 'tree',
+                id: 'treeMenu',
+                cls: 'leftregion bgpanel',
+                collapsible: true,
+                width: 220,
+                title: '资源管理器',
+                header: true,
+                region: 'left',
+                split: true,
+                splitWidth: 2,
+                splitIcon: false,
+                hideHScrollbar: true,
+                hideVScrollbar: true,
+                expanderToRight: false,
+                headerStyle: true,
+                singleClickExpand: true,
+                autoLeafIdentification: true,
+                rootNode: {
+                    expanded: true,
+                    children: MENUS
+                },
+                bars: [{
+                    type: 'toolbar', align: 'right', position: 'bottom',tooltip:'退出系统', style:'padding:1px',
+                    items: [{
+                        type: 'button', iconFont: 'sign-out', cls: 'red',
+                        handler: function () {
+                            F.confirm({
+                                message: '确认要退出系统吗？',
+                                messageIcon: 'warning',
+                                target: '_top',
+                                ok: function () {
+                                    C.auth.logout();
+                                }
+                            });
+                        }
+                    }]
+                }]
+            }, {
+                type: 'tabstrip', id: 'mainTabStrip', cls: 'centerregion', flex: 1, activeTabIndex: 0, enableCloseMenu: true, region: 'center',
+                items: [{
+                    type: 'tab', iframe: true, iframeUrl: "@Url.Content("/home/dashboard")", title: '首 页', iconFont: 'home'
+                }]
+            }]
+        });
+
+        var treeMenu = F.ui.treeMenu, mainTabStrip = F.ui.mainTabStrip;
+
+
+        // 初始化主框架中的树(或者Accordion+Tree)和选项卡互动，以及地址栏的更新
+        // treeMenu： 主框架中的树控件实例，或者内嵌树控件的手风琴控件实例
+        // mainTabStrip： 选项卡实例
+        // updateHash: 切换Tab时，是否更新地址栏Hash值（默认值：true）
+        // refreshWhenExist： 添加选项卡时，如果选项卡已经存在，是否刷新内部IFrame（默认值：false）
+        // refreshWhenTabChange: 切换选项卡时，是否刷新内部IFrame（默认值：false）
+        // maxTabCount: 最大允许打开的选项卡数量
+        // maxTabMessage: 超过最大允许打开选项卡数量时的提示信息
+        F.initTreeTabStrip(treeMenu, mainTabStrip, {
+            maxTabCount: 15,
+            maxTabMessage: '请先关闭一些选项卡（最多允许打开 15 个）！'
+        });
+
+    });
+
+    // 展开左侧面板
+    function expandLeftPanel() {
+        var treeMenu = F.ui.treeMenu;
+
+        treeMenu.miniMode = false;
+        // 重新加载树菜单
+        treeMenu.loadData();
+
+        treeMenu.setWidth(220);
+    }
+
+
+    // 折叠左侧面板
+    function collapseLeftPanel() {
+        var treeMenu = F.ui.treeMenu;
+
+        treeMenu.miniMode = true;
+        treeMenu.miniModePopWidth = 300;
+        // 重新加载树菜单
+        treeMenu.loadData();
+
+        treeMenu.setWidth(50);
+    }
+
+    // 公开方法 - 添加选项卡
+    // id： 选项卡ID
+    // iframeUrl: 选项卡IFrame地址
+    // title： 选项卡标题
+    // icon： 选项卡图标
+    // iconFont： 选项卡图标字体
+    // refreshWhenExist： 添加选项卡时，如果选项卡已经存在，是否刷新内部IFrame
+    function addExampleTab(tabOptions) {
+        var mainTabStrip = F.ui.mainTabStrip;
+        F.addMainTab(mainTabStrip, tabOptions);
+    }
+
+
+    // 公开方法 - 移除激活标签页
+    function removeActiveTab() {
+        var mainTabStrip = F.ui.mainTabStrip;
+        mainTabStrip.getActiveTab().hide();
+    }
+</script>
+</body>
+</html>
